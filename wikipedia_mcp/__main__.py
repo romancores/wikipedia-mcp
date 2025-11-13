@@ -36,7 +36,7 @@ def main():
     parser.add_argument(
         "--transport",
         type=str,
-        default="stdio",
+        default="sse",
         choices=["stdio", "sse"],
         help=("Transport protocol for MCP communication " "(stdio for Claude Desktop, sse for HTTP streaming)"),
     )
@@ -144,8 +144,8 @@ def main():
     # Create and start the server
     try:
         server = create_server(
-            language=args.language,
-            country=args.country,
+            language=args.language or os.getenv("WIKIPEDIA_LANGUAGE"),
+            country=args.country or os.getenv("WIKIPEDIA_COUNTRY"),
             enable_cache=args.enable_cache,
             access_token=access_token,
         )
